@@ -1,0 +1,26 @@
+{
+  "name": "react-overhaul",
+  "version": "1.0.0",
+  "description": "React revise",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skyline070/React-Overhaul.git"
+  },
+  "keywords": [],
+  "author": "Sky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skyline070/React-Overhaul/issues"
+  },
+  "homepage": "https://github.com/skyline070/React-Overhaul#readme",
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "browserslist":[
+    "last 2 versions"
+  ]
+}
