@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "React revise",
   "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
     "test": "jest"
   },
   "repository": {
@@ -17,10 +19,11 @@
   },
   "homepage": "https://github.com/skyline070/React-Overhaul#readme",
   "dependencies": {
+    "parcel": "^2.16.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
-  "browserslist":[
+  "browserslist": [
     "last 2 versions"
   ]
 }
