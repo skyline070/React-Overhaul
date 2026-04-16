@@ -19,3 +19,23 @@
 - HTTPs
 - Tree Shaking - remove unused code
 - Different dev and prod bundles
+
+# Eat To Food
+
+ # Header
+  - Logo
+  - Nav Items
+ # Body
+  - Search
+  - RestaurantContainer
+   - RestaurantCard
+    - Image
+    - Restaurant Name
+    - Rating
+    - Cuisines
+    - Time to Deliver
+ # Footer
+  - Copyright
+  - Links
+  - Address
+  - Contact
