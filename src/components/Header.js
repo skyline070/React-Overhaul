@@ -5,7 +5,7 @@ import logo from "url:../assets/logo.png";
 const Header = () => {
   const [btnName, setBtnName] = useState ("Login");
   
-  console.log("Header Render");
+  // console.log("Header Render");
 
   return(
     <div className="header">
