@@ -10,6 +10,7 @@ const Body = () => {
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Whenever state vaiables updates, react triggers a reconciliation cycle(re-renders the component)
   console.log("Body Rendered");
 
   // 🔹 Fetch data when offset changes
@@ -43,9 +44,21 @@ const Body = () => {
 
       console.log("New restaurants:", restaurants.length);
 
+      const removeDuplicates = (data) => {
+        return data.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.info.id === item.info.id)
+        );
+      };
+
       // 🔹 append data (infinite scroll)
-      setListOfRestaurants((prev) => [...prev, ...restaurants]);
-      setFilteredRestaurant((prev) => [...prev, ...restaurants]);
+      setListOfRestaurants((prev) =>
+        removeDuplicates([...prev, ...restaurants])
+      );
+
+      setFilteredRestaurant((prev) =>
+        removeDuplicates([...prev, ...restaurants])
+      );
 
     } catch (error) {
       console.error("Fetch failed:", error);
@@ -99,6 +112,8 @@ const Body = () => {
 
           <button
             onClick={() => {
+              // filter the restaurant cards and updates the UI
+              // searchText
               const filteredRes = listOfRestaurants.filter((res) =>
                 res?.info?.name
                   ?.toLowerCase()

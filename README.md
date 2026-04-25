@@ -39,3 +39,12 @@
   - Links
   - Address
   - Contact
+
+# React Hooks
+  (Normal JS utility Funcyions)
+  - UseState() - Superpowerfulll state variable in react
+  - useEffect()
+
+# 2 types of Routing in web apps
+  - Client Side Routing
+  - Server Side Routing
