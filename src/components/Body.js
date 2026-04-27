@@ -27,11 +27,13 @@ const Body = () => {
 
     try {
       const data = await fetch(
-        `https://proxy.corsfix.com/?https://www.swiggy.com/mapi/restaurants/list/v5?offset=${offsetValue}&is-seo-homepage-enabled=true&lat=28.3360134&lng=79.4108748&carousel=true&third_party_vendor=1`
+        `https://www.swiggy.com/mapi/restaurants/list/v5?offset=${offsetValue}&is-seo-homepage-enabled=true&lat=28.3360134&lng=79.4108748&carousel=true&third_party_vendor=1`
       );
 
-      if (!data.ok) {
-        console.error("API failed");
+      if (!data || !data.ok) {
+        console.error("API failed", data.status);
+        const text = await data.text();
+        console.log("Response:", text);
         return;
       }
 
@@ -70,7 +72,7 @@ const Body = () => {
   // 🔹 Infinite scroll
   useEffect(() => {
     const handleScroll = () => {
-      console.log("scrolling...", window.scrollY);
+      // console.log("scrolling...", window.scrollY);
 
       if (
         window.innerHeight + window.scrollY >=
