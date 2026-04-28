@@ -1,6 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router";
 
 const Body = () => {
   // 🔹 State
@@ -15,7 +16,7 @@ const Body = () => {
 
   // 🔹 Fetch data when offset changes
   useEffect(() => {
-    console.log("Offset changed:", offset);
+    // console.log("Offset changed:", offset);
     fetchData(offset);
   }, [offset]);
 
@@ -23,7 +24,7 @@ const Body = () => {
     if (loading) return; // 🔹 prevent multiple API calls
 
     setLoading(true);
-    console.log("Fetching data for offset:", offsetValue);
+    // console.log("Fetching data for offset:", offsetValue);
 
     try {
       const data = await fetch(
@@ -147,10 +148,9 @@ const Body = () => {
       {/* 🔹 Cards */}
       <div className="res-container">
         {filteredRestaurant.map((restaurant) => (
-          <RestaurantCard
-            key={restaurant?.info?.id}
+          <Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant?.info?.id}><RestaurantCard
             resData={restaurant}
-          />
+          /></Link>
         ))}
       </div>
 
