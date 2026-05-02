@@ -3,7 +3,7 @@ import React from "react";
 
 class UserClass extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
 
     // console.log(this.props.name + "Child Constructor")
         
@@ -16,7 +16,8 @@ class UserClass extends React.Component {
         },
     };
     }
-     async componentDidMount() {
+
+    async componentDidMount() {
 
         // console.log(this.props.name + "Child CDM")
 
@@ -27,17 +28,18 @@ class UserClass extends React.Component {
 
         this.setState({
             userInfo: json,
-        })
+        });
 
-    }
+    };
 
     componentDidUpdate() {
         // console.log("componentDidUpdate child")
-    }
+    };
 
     componentWillUnmount() {
         // console.log("componentWillUnmount child")
-    }
+    };
+
     render() {
 
         // console.log(this.props.name + "Child Render")
@@ -51,8 +53,8 @@ class UserClass extends React.Component {
                 <h3>Bio: {bio}</h3>
                 <h4>Github: {html_url}</h4>
             </div>
-        )
-    }
-}
+        );
+    };
+};
 
 export default UserClass;
