@@ -1,25 +1,14 @@
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { useParams  } from "react-router";
-import { MENU_API } from "../utils/constants";
+import useRestaurantMenu from "../utils/useRestaurentMenu";
 
 const RestaurantMenu = () => {
 
-    const [resInfo, setResInfo] = useState(null);
-
     const { resId } = useParams(); 
-    
-    useEffect(() =>{
-        fetchMenu ();
-    }, []) 
 
-    const fetchMenu = async () => {
-        const data = await fetch(MENU_API + resId);
-        const json = await data.json();
+    const resInfo = useRestaurantMenu(resId);    
 
-        // console.log(json);
-        setResInfo(json.data);
-    };
     if (resInfo === null) return <Shimmer />
 
     // console.log(resInfo);
@@ -77,7 +66,7 @@ const RestaurantMenu = () => {
                 <li key={item?.card?.info?.id}>
                    <h3> {item?.card?.info?.name}</h3> - {"Rs."}
                     {item?.card?.info?.price / 100 || item?.card?.info?.defaultPrice / 100}
-                    <h5>{item?.card?.info?.description}</h5>
+                    {/* <h5>{item?.card?.info?.description}</h5> */}
                 </li>)}
             
             </ul>
