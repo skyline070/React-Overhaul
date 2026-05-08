@@ -1,30 +1,50 @@
 import { CDN_URL } from "../utils/constants";
 
-const RestaurantCard = (props) => { 
-  const {resData} = props
+const RestaurantCard = (props) => {
+  const { resData } = props;
 
   const {
     cloudinaryImageId,
     name,
     cuisines,
-    avgRating, 
+    avgRating,
     costForTwo,
-    sla
+    sla,
   } = resData?.info;
-  return(
-    <div className="res-card" style={{background: "#f0f0f0"}}>
-      <img className="res-logo"
-      alt="res-logo"
-      src={CDN_URL + cloudinaryImageId
-         }
-        />
-      <h3>{name}</h3>
-      <h4>{cuisines.join (",")}</h4>
-      <h4>{avgRating} stars</h4> 
-      <h4>{costForTwo}</h4>
-      <h4>{sla?.slaString}</h4>
+
+  return (
+    <div className="res-card m-4 p-4 w-[270px] rounded-2xl bg-gray-100 hover:bg-gray-200 hover:scale-105 transition-all duration-200 shadow-md flex flex-col cursor-pointer">
+
+      {/* Restaurant Image */}
+      <img
+        className="res-logo rounded-xl w-full h-[180px] object-cover"
+        alt="res-logo"
+        src={CDN_URL + cloudinaryImageId}
+      />
+
+      {/* Content */}
+      <div className="flex flex-col flex-grow mt-3">
+
+        {/* Restaurant Name */}
+        <h3 className="font-bold text-lg line-clamp-2 min-h-[56px]">
+          {name}
+        </h3>
+
+        {/* Cuisines */}
+        <p className="text-gray-600 text-sm line-clamp-2 min-h-[44px] mt-1">
+          {cuisines.join(", ")}
+        </p>
+
+        {/* Extra Details */}
+        <div className="mt-auto pt-3 space-y-1">
+          <h4 className="font-medium">⭐ {avgRating}</h4>
+          <h4 className="text-gray-700">{costForTwo}</h4>
+          <h4 className="text-gray-700">{sla?.slaString}</h4>
+        </div>
+
+      </div>
     </div>
-  )
+  );
 };
 
 export default RestaurantCard;

@@ -47,7 +47,7 @@ class UserClass extends React.Component {
        const {name, bio, html_url} = this.state.userInfo;
 
         return (
-            <div className="user-card">
+            <div className="user-card m-4 p-4 bg-gray-100 rounded-lg w-72">
                 
                 <h2>Name: {name}</h2>
                 <h3>Bio: {bio}</h3>

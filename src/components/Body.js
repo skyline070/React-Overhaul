@@ -9,94 +9,45 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   // Whenever state vaiables updates, react triggers a reconciliation cycle(re-renders the component)
   console.log("Body Rendered");
 
-  // 🔹 Fetch data when offset changes
+  // 🔹 Fetch data once
   useEffect(() => {
-    // console.log("Offset changed:", offset);
-    fetchData(offset);
-  }, [offset]);
+    fetchData();
+  }, []);
 
-  const fetchData = async (offsetValue = 0) => {
-    if (loading) return; // 🔹 prevent multiple API calls
-
-    setLoading(true);
-    // console.log("Fetching data for offset:", offsetValue);
-
+  const fetchData = async () => {
     try {
-      const data = await fetch(
-        `https://www.swiggy.com/mapi/restaurants/list/v5?offset=${offsetValue}&is-seo-homepage-enabled=true&lat=28.3360134&lng=79.4108748&carousel=true&third_party_vendor=1`
+      const response = await fetch(
+        "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.3360134&lng=79.4108748&page_type=DESKTOP_WEB_LISTING"
       );
 
-      if (!data || !data.ok) {
-        console.error("API failed", data.status);
-        const text = await data.text();
-        console.log("Response:", text);
-        return;
-      }
-
-      const json = await data.json();
+      const json = await response.json();
 
       const restaurants =
         json?.data?.cards
           ?.map((c) => c?.card?.card?.gridElements?.infoWithStyle?.restaurants)
           ?.find((res) => res !== undefined) || [];
 
-      console.log("New restaurants:", restaurants.length);
+        console.log("Restaurants:", restaurants.length);
 
-      const removeDuplicates = (data) => {
-        return data.filter(
-          (item, index, self) =>
-            index === self.findIndex((t) => t.info.id === item.info.id)
-        );
-      };
-
-      // 🔹 append data (infinite scroll)
-      setListOfRestaurants((prev) =>
-        removeDuplicates([...prev, ...restaurants])
-      );
-
-      setFilteredRestaurant((prev) =>
-        removeDuplicates([...prev, ...restaurants])
-      );
+      setListOfRestaurants(restaurants);
+      setFilteredRestaurant(restaurants);
 
     } catch (error) {
-      console.error("Fetch failed:", error);
+      console.log(error);
     }
-
-    setLoading(false);
   };
-
-  // 🔹 Infinite scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      // console.log("scrolling...", window.scrollY);
-
-      if (
-        window.innerHeight + window.scrollY >=
-          document.body.offsetHeight - 200 &&
-        !loading
-      ) {
-        console.log("Reached bottom ✅");
-        setOffset((prev) => prev + 20);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading]);
 
   const onlineStatus = useOnlineStatus();
 
-    if (onlineStatus === false)
-      return (
-    <h1>
-      Looks like you're offline!! Please check your internet connection;
-    </h1>
+  if (onlineStatus === false)
+    return (
+      <h1>
+        Looks like you're offline!! Please check your internet connection;
+      </h1>
     );
 
   // 🔹 Loading UI
@@ -107,26 +58,22 @@ const Body = () => {
   return (
     <div className="body">
 
-      {/* 🔹 Debug UI */}
-      {process.env.NODE_ENV === "development" && (
-        <h3>Offset: {offset}</h3>
-      )}
-
-      <div className="filter">
+      <div className="filter flex flex-col md:flex-row items-center justify-between gap-4 px-6 py-4">
 
         {/* 🔹 Search */}
-        <div className="search">
+        <div className="search flex items-center gap-3 bg-white shadow-md rounded-xl px-4 py-3">
+          
           <input
             type="text"
-            className="search-box"
+            placeholder="Search restaurants..."
+            className="border border-gray-300 px-4 py-2 rounded-lg outline-none focus:border-green-500 w-[250px]"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
 
           <button
+            className="px-5 py-2 bg-green-400 text-white font-medium rounded-lg hover:bg-green-500 transition-all duration-200"
             onClick={() => {
-              // filter the restaurant cards and updates the UI
-              // searchText
               const filteredRes = listOfRestaurants.filter((res) =>
                 res?.info?.name
                   ?.toLowerCase()
@@ -141,31 +88,34 @@ const Body = () => {
         </div>
 
         {/* 🔹 Top Rated */}
-        <button
-          className="filter-btn"
-          onClick={() => {
-            const filteredList = listOfRestaurants.filter(
-              (res) => res?.info?.avgRating > 4.2
-            );
+        <div className="top-rated">
+          <button
+            className="px-5 py-3 bg-orange-400 text-white font-medium rounded-xl shadow-md hover:bg-orange-500 transition-all duration-200"
+            onClick={() => {
+              const filteredList = listOfRestaurants.filter(
+                (res) => res?.info?.avgRating > 4.2
+              );
 
-            setFilteredRestaurant(filteredList);
-          }}
-        >
-          Top Rated Restaurants
-        </button>
+              setFilteredRestaurant(filteredList);
+            }}
+          >
+            ⭐ Top Rated Restaurants
+          </button>
+        </div>
+
       </div>
 
       {/* 🔹 Cards */}
-      <div className="res-container">
+      <div className="res-container flex flex-wrap px-1">
         {filteredRestaurant.map((restaurant) => (
-          <Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant?.info?.id}><RestaurantCard
-            resData={restaurant}
-          /></Link>
+          <Link
+            key={restaurant?.info?.id}
+            to={"/restaurants/" + restaurant?.info?.id}
+          >
+            <RestaurantCard resData={restaurant} />
+          </Link>
         ))}
       </div>
-
-      {/* 🔹 Bottom loader */}
-      {loading && <h2 style={{ textAlign: "center" }}>Loading more...</h2>}
     </div>
   );
 };
