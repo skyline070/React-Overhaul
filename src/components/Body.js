@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router";
@@ -10,8 +10,10 @@ const Body = () => {
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  const RestaurantCardWithPromotedLabel = withPromotedLabel(RestaurantCard);
+
   // Whenever state vaiables updates, react triggers a reconciliation cycle(re-renders the component)
-  console.log("Body Rendered");
+  // console.log("Body Rendered", listOfRestaurants);
 
   // 🔹 Fetch data once
   useEffect(() => {
@@ -31,7 +33,7 @@ const Body = () => {
           ?.map((c) => c?.card?.card?.gridElements?.infoWithStyle?.restaurants)
           ?.find((res) => res !== undefined) || [];
 
-        console.log("Restaurants:", restaurants.length);
+        // console.log("Restaurants:", restaurants.length);
 
       setListOfRestaurants(restaurants);
       setFilteredRestaurant(restaurants);
@@ -112,7 +114,15 @@ const Body = () => {
             key={restaurant?.info?.id}
             to={"/restaurants/" + restaurant?.info?.id}
           >
-            <RestaurantCard resData={restaurant} />
+             {/* if the restaurant is promoted then add a promoted label to it  */}
+
+            {restaurant?.info?.promoted ? (
+              <RestaurantCardWithPromotedLabel resData={restaurant} />
+              
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
+            
           </Link>
         ))}
       </div>
