@@ -1,8 +1,9 @@
 import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   // 🔹 State
@@ -51,6 +52,8 @@ const Body = () => {
         Looks like you're offline!! Please check your internet connection;
       </h1>
     );
+
+    const { loggedInUser,setUserName } = useContext(UserContext);
 
   // 🔹 Loading UI
   if (listOfRestaurants.length === 0) {
@@ -103,6 +106,21 @@ const Body = () => {
           >
             ⭐ Top Rated Restaurants
           </button>
+        </div>
+
+        {/* Changing Username Dynamically */}
+        <div className="Username">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Username:
+          </label>
+          <input
+            type="text"
+            placeholder="Enter username"
+            className="border border-gray-300 px-4 py-2 rounded-lg outline-none focus:border-green-500 w-62.5"
+            value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          
         </div>
 
       </div>

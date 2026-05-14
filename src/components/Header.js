@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import logo from "url:../assets/logo.png";
 import { Link } from "react-router";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const onlineStatus = useOnlineStatus();
+  const {loggedInUser} = useContext(UserContext);
+  console.log(loggedInUser);
 
   // console.log("Header Render");
 
@@ -59,6 +62,9 @@ const Header = () => {
           >
             {btnName}
           </button>
+          <li className="hover:text-orange-500 transition duration-200 cursor-pointer">
+            {loggedInUser}
+          </li>
 
         </ul>
       </div>

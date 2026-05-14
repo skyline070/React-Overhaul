@@ -1,21 +1,42 @@
 import ItemList from "./ItemList";
+import { useState } from "react";
 
-const RestaurantCategory = ({ data }) => {
+const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
     // console.log("category rendered", data);
+    const [toggleupArrow, setToggleupArrow] = useState(false);
+
+    const handleClick = () => {
+        setShowIndex();
+        setToggleupArrow(!toggleupArrow);
+    };
+
     return (
         <div>
-          {/* Header */}
+            <div className="w-6/12 mx-auto my-3 bg-white shadow-md rounded-xl overflow-hidden border border-gray-100">
 
-            <div className="w-6/12 mx-auto my-2 bg-gray-50 shadow-lg p-4 rounded-lg">
-               <div className="flex justify-between">
-                    <span className="font-bold text-lg ">
-                        {data?.title} ({data.itemCards.length})
+                {/* Header */}
+                <div
+                    className="flex justify-between items-center cursor-pointer p-5 hover:bg-gray-50 transition-all duration-200"
+                    onClick={handleClick}
+                >
+                    <span className="font-bold text-lg text-gray-800">
+                        {data?.title} ({data?.itemCards?.length})
                     </span>
-                    <span>⏷</span>
+
+                    <span className="text-xl text-gray-600">
+                        {showItems ? "▲" : "▼"}
+                    </span>
                 </div>
-                <ItemList items={data?.itemCards} /> 
+
+                {/* Body */}
+                {showItems && (
+                    <div className="px-5 pb-5">
+                        <ItemList items={data?.itemCards} />
+                    </div>
+                )}
             </div>
         </div>
-    )
-}
-export default RestaurantCategory;  
+    );
+};
+
+export default RestaurantCategory;
