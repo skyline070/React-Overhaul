@@ -3,12 +3,18 @@ import logo from "url:../assets/logo.png";
 import { Link } from "react-router";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const onlineStatus = useOnlineStatus();
   const {loggedInUser} = useContext(UserContext);
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
+
+  // Subscribing to the store using a selector (to get the cart items from the store)
+
+  const cartItems = useSelector((store) => store.cart.items);
+  // console.log(cartItems);
 
   // console.log("Header Render");
 
@@ -49,7 +55,7 @@ const Header = () => {
           </li>
 
           <li className="hover:text-orange-500 transition duration-200 cursor-pointer">
-            Cart
+            <Link to="/cart">Cart-{cartItems.length} items</Link>
           </li>
 
           <button

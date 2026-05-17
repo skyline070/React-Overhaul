@@ -1,6 +1,16 @@
+import { useDispatch } from "react-redux"; 
+import { addItem } from "../redux/cartSlice";
 import { CDN_URL } from "../utils/constants";
 
 const ItemList = ({ items }) => {
+
+  const dispatch = useDispatch();
+  const handleAddToCart = (item) =>{
+    // Dispatch an action to add item to the cart
+    // console.log("clicked on add to cart", item);
+    dispatch(addItem(item));
+  };
+
   return (
     <div className="space-y-6">
         {/*Body */}
@@ -39,7 +49,8 @@ const ItemList = ({ items }) => {
                 className="w-32 h-32 object-cover rounded-2xl shadow-md"
               />
 
-              <button className="absolute -bottom-3 bg-white text-green-600 font-bold px-6 py-2 rounded-xl shadow-lg border border-gray-200 hover:bg-green-50 hover:scale-105 transition-all duration-200">
+              <button className="absolute -bottom-3 bg-white text-green-600 font-bold px-6 py-2 rounded-xl shadow-lg border border-gray-200 hover:bg-green-50 hover:scale-105 transition-all duration-200"
+              onClick={() => handleAddToCart(item)}> 
                 ADD +
               </button>
             </div>
