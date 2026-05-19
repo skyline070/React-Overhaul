@@ -8,19 +8,25 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const onlineStatus = useOnlineStatus();
-  const {loggedInUser} = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
   // console.log(loggedInUser);
 
   // Subscribing to the store using a selector (to get the cart items from the store)
 
   const cartItems = useSelector((store) => store.cart.items);
   // console.log(cartItems);
+  // convert object -> array
+  // const itemsArray = Object.values(cartItems);
+
+  const totalItems = Object.values(cartItems).reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
 
   // console.log("Header Render");
 
   return (
     <div className="flex justify-between items-center px-6 py-3 bg-pink-100 shadow-lg transition-all duration-500 sm:bg-yellow-50 lg:bg-green-50">
-
       {/* Logo */}
       <div className="logo-container flex items-center">
         <img
@@ -33,7 +39,6 @@ const Header = () => {
       {/* Nav Items */}
       <div className="nav-items flex items-center">
         <ul className="flex items-center gap-6 font-medium text-gray-700">
-
           <li className="text-sm">
             Online Status : {onlineStatus ? "✅" : "🔴"}
           </li>
@@ -55,15 +60,13 @@ const Header = () => {
           </li>
 
           <li className="hover:text-orange-500 transition duration-200 cursor-pointer">
-            <Link to="/cart">Cart-{cartItems.length} items</Link>
+            <Link to="/cart">Cart-{totalItems} items</Link>
           </li>
 
           <button
             className="px-4 py-2 bg-green-400 text-white rounded-lg hover:bg-green-500 transition duration-200"
             onClick={() => {
-              btnName === "Login"
-                ? setBtnName("Logout")
-                : setBtnName("Login");
+              btnName === "Login" ? setBtnName("Logout") : setBtnName("Login");
             }}
           >
             {btnName}
@@ -71,7 +74,6 @@ const Header = () => {
           <li className="hover:text-orange-500 transition duration-200 cursor-pointer">
             {loggedInUser}
           </li>
-
         </ul>
       </div>
     </div>
