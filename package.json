@@ -30,5 +30,13 @@
   },
   "browserslist": [
     "last 2 versions"
-  ]
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "@testing-library/react": "^16.3.2",
+    "babel-jest": "^30.4.1",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1"
+  }
 }
